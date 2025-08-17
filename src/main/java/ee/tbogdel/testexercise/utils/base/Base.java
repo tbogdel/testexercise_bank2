@@ -8,7 +8,6 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.openqa.selenium.*;
 import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.time.Duration;
@@ -67,17 +66,6 @@ public class Base {
         }
     }
 
-    @Step("Wait for element to be invisible")
-    public void waitForElementInvisibility(By locator) {
-        try {
-            wait10Sec.until(ExpectedConditions.invisibilityOfElementLocated(locator));
-        } catch (Exception e) {
-            screenshot();
-            e.printStackTrace();
-            Assert.fail("TEST FAILED: Element is visible " + locator);
-        }
-    }
-
     @Step("Wait for input field {1} to be visible and fill in")
     public void waitForInputFieldAndFillText(By locator, String value) {
         try {
@@ -93,24 +81,11 @@ public class Base {
         }
     }
 
-    @Step("Wait for input field {1} to be visible and fill in")
-    public void aaa(By locator, String value) {
-        try {
-            wait10Sec.until(ExpectedConditions.visibilityOfAllElementsLocatedBy(locator));
-            wait10Sec.until(ExpectedConditions.attributeToBe(locator, "value", value));
-        } catch (Exception e) {
-            screenshot();
-            e.printStackTrace();
-            Assert.fail("TEST FAILED: Field not found " + locator);
-        }
-    }
-
     @Step("Wait for input field {1} to be visible and read text")
     public void waitForInputFieldAndReadText(By locator, String expectedValue) {
         try {
             wait10Sec.until(ExpectedConditions.visibilityOfAllElementsLocatedBy(locator));
             wait10Sec.until(ExpectedConditions.attributeToBe(locator, "value", expectedValue));
-            //driver.findElement(locator).getAttribute("value");
             String actualValue = driver.findElement(locator).getAttribute("value");
             Assert.assertEquals(expectedValue, actualValue, "Input field value is not correct!");
 
@@ -121,31 +96,10 @@ public class Base {
         }
     }
 
-    @Step("Select option {1} from dropdown element")
-    void dropdownSelect(By locator, String value) {
-        try {
-            WebElement dropdown = wait10Sec.until(ExpectedConditions.visibilityOfElementLocated(locator));
-            Select select = new Select(dropdown);
-            select.selectByVisibleText(value);
-
-        } catch (Exception e) {
-            screenshot();
-            e.printStackTrace();
-            Assert.fail("TEST FAILED: Element not found " + locator);
-        }
-    }
-
-    @Step("Get dropdown value")
-    public String getDropdownValue(By locator) {
-        WebElement dropdown = wait10Sec.until(ExpectedConditions.visibilityOfElementLocated(locator));
-        Select select = new Select(dropdown);
-        return select.getFirstSelectedOption().getText();
-    }
-
     @Step("User takes a screenshot.")
     @Attachment
-    public byte[] screenshot() {
-        return ((TakesScreenshot) this.driver)
+    public void screenshot() {
+        ((TakesScreenshot) this.driver)
                 .getScreenshotAs(OutputType.BYTES);
     }
 

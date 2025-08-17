@@ -12,7 +12,6 @@ import javax.annotation.Nullable;
 
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
-import java.text.NumberFormat;
 import java.time.Duration;
 import java.util.Locale;
 
@@ -50,8 +49,6 @@ public class LoanApplication {
 
     //Locators
     public By loanCalcModalTitleLabel = By.xpath("//dialog[@role='dialog' and @aria-modal='true'] //span[@class='bb-calculator-modal__heading']");
-    //public By loanCalcModalAmountLabel = By.id("header-calculator-amount");
-    //public By loanCalcModalAmountLabel = By.xpath("//label[normalize-space()='Laenusumma']");
     public By loanCalcModalAmountTitleLabel = By.xpath("//div[@data-testid='bb-input']/label[@for='header-calculator-amount']");
     public By loanCalcModalMinAmountTitleLabel = By.xpath("//div[@id='header-calculator-amount']/div[@class='bb-slider__ranges']/span[1]");
     public By loanCalcModalMaxAmountTitleLabel = By.xpath("//div[@id='header-calculator-amount']/div[@class='bb-slider__ranges']/span[2]");
@@ -61,9 +58,7 @@ public class LoanApplication {
 
     public By loanCalcModalAmountValueInput = By.xpath("//input[@id='header-calculator-amount']");
     public By loanCalcModalPeriodValueInput = By.xpath("//input[@id='header-calculator-period']");
-    //public By loanCalcModalAmountUnitLabel = By.xpath("//div[@class='input-addon'][contains(text(),' € ')]");
     public By loanCalcModalAmountUnitLabel = By.cssSelector("#header-calculator-amount + .input-addon-wrapper .input-addon");
-    //public By loanCalcModalPeriodUnitLabel = By.xpath("//div[@class='input-addon'][contains(text(),'kuud')]");
     public By loanCalcModalPeriodUnitLabel = By.cssSelector("#header-calculator-period + .input-addon-wrapper .input-addon");
     public By loanCalcModalMonthlyPaymentTitleLabel = By.xpath("//div[@class='bb-labeled-value__label']");
     public By loanCalcModalMonthlyPaymentValueLabel = By.xpath("//div[@class='bb-labeled-value__value']");
@@ -71,82 +66,6 @@ public class LoanApplication {
     public By loanCalcModalCloseBtn = By.cssSelector(".bb-modal__close");
 
     public By loanApplicationLoanAmount = By.xpath("//div[@class='bb-edit-amount__amount']");
-
-    /*
-    @Step ("User login with valid credentials")
-    public void successfulLogin() {
-
-        String welcomeUserName = "Welcome" + " " +customerFirstname + " " + customerLastname;
-
-        navigateToLoanApplicationPage();
-        base.waitForInputFieldAndFillText(usernameInput, validUsername);
-        base.waitForInputFieldAndFillText(passwordInput, validPassword);
-        base.waitForButtonClickableAndClick(loginButton);
-        base.labelVerification(welcomeLabel, welcomeUserName);
-        base.labelVerification(accountsOverviewViewTitle, accountsOverview);
-
-    }
-
-    @Step ("User log out")
-    public void userLogout() {
-
-        base.waitForButtonClickableAndClick(logoutButton);
-        base.labelVerification(customerLoginLabel, customerLoginText);
-        base.labelVerification(loginButton, login);
-
-    }
-
-    @Step ("User login with invalid username")
-    public void unsuccessfulLoginWithInvalidUsername() {
-
-        navigateToLoanApplicationPage();
-        log("Error happened");
-        base.waitForInputFieldAndFillText(usernameInput, invalidUsername);
-        base.waitForInputFieldAndFillText(passwordInput, validPassword);
-        base.waitForButtonClickableAndClick(loginButton);
-        base.labelVerification(unsuccessfulLoginErrorMessage, unsuccessfulLoginError);
-
-    }
-
-    @Step ("User login with invalid password")
-    public void unsuccessfulLoginWithInvalidPassword() {
-
-        navigateToLoanApplicationPage();
-        base.waitForInputFieldAndFillText(usernameInput, validUsername);
-        base.waitForInputFieldAndFillText(passwordInput, invalidPassword);
-        base.waitForButtonClickableAndClick(loginButton);
-        base.labelVerification(unsuccessfulLoginErrorMessage, unsuccessfulLoginError);
-
-    }
-
-    @Step ("New user registration")
-    public void registerUser() {
-
-        navigateToLoanApplicationPage();
-        base.waitForButtonClickableAndClick(customerSignupButton);
-        base.labelVerification(customerSignupViewTitle, customerSignupViewTitleValue);
-        base.labelVerification(customerSignupViewText, customerSignupViewTextValue);
-
-        base.waitForInputFieldAndFillText(registerFirstnameInput, customerFirstname);
-        base.waitForInputFieldAndFillText(registerLastnameInput, customerLastname);
-        base.waitForInputFieldAndFillText(registerStreetInput, customerStreet);
-        base.waitForInputFieldAndFillText(registerCityInput, customerCity);
-        base.waitForInputFieldAndFillText(registerStateInput, customerState);
-        base.waitForInputFieldAndFillText(registerZipCodeInput, customerZipCode);
-        base.waitForInputFieldAndFillText(registerSsnInput, customerSsn);
-
-        String newUser = UsernameGenerator.generateUsername(8);
-        base.waitForInputFieldAndFillText(registerUsernameInput, newUser);
-
-        base.waitForInputFieldAndFillText(registerPasswordInput, validPassword);
-        base.waitForInputFieldAndFillText(registerRepeatedPasswordInput, validPassword);
-        base.waitForButtonClickableAndClick(customerSignupSubmitButton);
-
-        base.labelVerification(customerSignupSuccessfulViewTitle, newUser);
-        base.labelVerification(customerSignupSuccessfulViewText, customerSignupSuccessfulViewTextValue);
-        //TODO Add Welcome First Last verification
-
-    }*/
 
     @Step ("Navigate to loan application page")
     public void navigateToLoanApplicationPage() {
@@ -200,7 +119,6 @@ public class LoanApplication {
         } else {
             base.waitForButtonClickableAndClick(loanCalcModalCloseBtn);
         }
-        //base.waitForElementInvisibility(loanCalcModalTitleLabel);
         driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(1));
         wait10Sec.until(ExpectedConditions.invisibilityOfElementLocated(loanCalcModalTitleLabel));
         driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
@@ -237,11 +155,7 @@ public class LoanApplication {
         DecimalFormatSymbols symbols = new DecimalFormatSymbols(Locale.US);
         DecimalFormat df = new DecimalFormat("€#,##0.00", symbols);
         String formatted = df.format(Double.parseDouble(monthlyPayment));
-
-        /*double value = Double.parseDouble(monthlyPayment);
-
-        String formatted = "€" + String.format(Locale.US,"%.2f", value);*/
-        System.out.println("formatted = " + formatted);
+        // Verify monthly payment value
         base.labelVerification(loanCalcModalMonthlyPaymentValueLabel, formatted);
     }
 }
