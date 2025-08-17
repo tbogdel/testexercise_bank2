@@ -1,7 +1,6 @@
-package ee.tbogdel.testexercise.utils.base;
+package test_project.base;
 
-import ee.tbogdel.testexercise.utils.pages.LoanApplication;
-import io.qameta.allure.Allure;
+import test_project.pages.LoanApplication;
 import org.testng.Assert;
 import io.qameta.allure.Attachment;
 import io.qameta.allure.Step;

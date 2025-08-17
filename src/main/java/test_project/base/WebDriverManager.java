@@ -1,4 +1,4 @@
-package ee.tbogdel.testexercise.utils.base;
+package test_project.base;
 
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;

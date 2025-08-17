@@ -1,4 +1,4 @@
-package ee.tbogdel.testexercise.utils.utils;
+package test_project.utils;
 
 public class PricingParameters {
 

@@ -1,4 +1,4 @@
-package ee.tbogdel.testexercise.utils.utils;
+package test_project.utils;
 
 import com.google.gson.JsonObject;
 import io.qameta.allure.internal.shadowed.jackson.databind.JsonNode;

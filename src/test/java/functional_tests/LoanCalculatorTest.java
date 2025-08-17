@@ -1,14 +1,11 @@
 package functional_tests;
 
-import ee.tbogdel.testexercise.utils.base.Base;
-import ee.tbogdel.testexercise.utils.pages.LoanApplication;
+import test_project.base.Base;
 import io.qameta.allure.Feature;
 import io.qameta.allure.Severity;
 import io.qameta.allure.SeverityLevel;
 import io.qameta.allure.Story;
 import org.junit.jupiter.api.*;
-
-import javax.annotation.Nullable;
 
 @Feature("Main menu functionality")
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)

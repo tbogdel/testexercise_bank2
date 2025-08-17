@@ -1,7 +1,7 @@
-package ee.tbogdel.testexercise.utils.pages;
+package test_project.pages;
 
-import ee.tbogdel.testexercise.utils.base.Base;
-import ee.tbogdel.testexercise.utils.utils.ParseJson;
+import test_project.base.Base;
+import test_project.utils.ParseJson;
 import io.qameta.allure.Allure;
 import io.qameta.allure.Step;
 import org.openqa.selenium.By;
