@@ -1,6 +1,7 @@
 package ee.tbogdel.testexercise.utils.base;
 
 import ee.tbogdel.testexercise.utils.pages.LoanApplication;
+import io.qameta.allure.Allure;
 import org.testng.Assert;
 import io.qameta.allure.Attachment;
 import io.qameta.allure.Step;
@@ -41,7 +42,7 @@ public class Base {
         driver = null;
     }
 
-    @Step("Label verification for text {1}")
+    @Step ("Label verification for text {1}")
     public void labelVerification(By locator, String textExpected) {
         try {
             wait10Sec.until(ExpectedConditions.visibilityOfAllElementsLocatedBy(locator));
@@ -54,7 +55,7 @@ public class Base {
         Assert.assertEquals(actual, textExpected, "TEST FAILED: Expected text does not match actual text for element " + locator);
     }
 
-    @Step ("Wait for button {0} to be clickable and click")
+    @Step("Wait for button {0} to be clickable and click")
     public void waitForButtonClickableAndClick(By button) {
         try {
             wait10Sec.until(ExpectedConditions.elementToBeClickable(button));
@@ -98,8 +99,8 @@ public class Base {
 
     @Step("User takes a screenshot.")
     @Attachment
-    public void screenshot() {
-        ((TakesScreenshot) this.driver)
+    public byte[] screenshot() {
+        return ((TakesScreenshot) this.driver)
                 .getScreenshotAs(OutputType.BYTES);
     }
 

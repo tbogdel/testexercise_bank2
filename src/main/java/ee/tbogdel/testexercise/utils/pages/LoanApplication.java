@@ -2,6 +2,7 @@ package ee.tbogdel.testexercise.utils.pages;
 
 import ee.tbogdel.testexercise.utils.base.Base;
 import ee.tbogdel.testexercise.utils.utils.ParseJson;
+import io.qameta.allure.Allure;
 import io.qameta.allure.Step;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
@@ -39,7 +40,9 @@ public class LoanApplication {
     String loanCalcModalPeriodTitle = "Periood";
     String loanCalcModalMinPeriodTitle = "6 KUUD";
     String loanCalcModalMaxPeriodTitle = "120 KUUD";
-    public String loanCalcModalAmountValue = "5,000"; // Default value
+    public String loanCalcModalAmountValue = "5,000";// Default value
+    public final String amountDefault = "5000";
+    public final String periodDefault = "60";
     public String loanCalcModalPeriodValue = "60"; // Default value
     String loanCalcModalAmountUnit = "€";
     String loanCalcModalPeriodUnit = "kuud";
@@ -67,8 +70,9 @@ public class LoanApplication {
 
     public By loanApplicationLoanAmount = By.xpath("//div[@class='bb-edit-amount__amount']");
 
-    @Step ("Navigate to loan application page")
+    @Step("Navigate to Loan Application Page")
     public void navigateToLoanApplicationPage() {
+        Allure.step("Navigate to Loan Application Page  allure.step");
         // Open loan application page
         driver.get(loanApplicationPageURL);
         base.labelVerification(loanCalcModalTitleLabel, loanCalcModalTitle);
@@ -150,12 +154,32 @@ public class LoanApplication {
     }
 
     @Step ("Verify loan calculator values")
-    public void verifyMonthlyPayment(int amount, int period) throws Exception {
+    public void verifyMonthlyPayment( int amount, int period) throws Exception {
         String monthlyPayment = ParseJson.getMonthlyPaymentCalculationFromServer(amount, period);
         DecimalFormatSymbols symbols = new DecimalFormatSymbols(Locale.US);
         DecimalFormat df = new DecimalFormat("€#,##0.00", symbols);
         String formatted = df.format(Double.parseDouble(monthlyPayment));
         // Verify monthly payment value
         base.labelVerification(loanCalcModalMonthlyPaymentValueLabel, formatted);
+    }
+
+    @Step ("Modify monthly payment")
+    public void modifyMonthlyPayment(
+            @Nullable String amount,
+            @Nullable String period
+    ) throws Exception {
+        navigateToLoanApplicationPage();
+
+        // Always use the given values for modifying loan calculator
+        modifyLoanCalcValues(amount, period);
+
+        // Use fallback values only for verification
+        String verifyAmount = (amount == null || amount.isEmpty()) ? amountDefault : amount;
+        String verifyPeriod = (period == null || period.isEmpty()) ? periodDefault : period;
+
+        verifyMonthlyPayment(
+                Integer.parseInt(verifyAmount),
+                Integer.parseInt(verifyPeriod)
+        );
     }
 }

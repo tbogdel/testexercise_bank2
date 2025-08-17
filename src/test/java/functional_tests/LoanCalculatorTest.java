@@ -1,11 +1,14 @@
 package functional_tests;
 
 import ee.tbogdel.testexercise.utils.base.Base;
+import ee.tbogdel.testexercise.utils.pages.LoanApplication;
 import io.qameta.allure.Feature;
 import io.qameta.allure.Severity;
 import io.qameta.allure.SeverityLevel;
 import io.qameta.allure.Story;
 import org.junit.jupiter.api.*;
+
+import javax.annotation.Nullable;
 
 @Feature("Main menu functionality")
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
@@ -24,31 +27,33 @@ public class LoanCalculatorTest extends Base {
 
     @Story("Loan application – calculator")
     @Severity(SeverityLevel.CRITICAL)
-    @DisplayName("Saving selected values")
+    @DisplayName("Calculating monthly payment and saving selected values")
     @Test
     @Order(2)
     void savingLoanCalcSelectedValues() throws Exception {
+        String amount = "30001";
+        String period = "6";
+        String amountConverted = "30,000"; // Converted value for verification
         loanApplicationPage.navigateToLoanApplicationPage();
-        modifyMonthlyPaymentAndCheckSavings("3870", "60", "3,870");
-    }
-
-    @Story("Loan application – calculator")
-    @Severity(SeverityLevel.CRITICAL)
-    @DisplayName("Saving selected values")
-    @Test
-    @Order(2)
-    void savingLoanCalcSelectedValues_testB() throws Exception {
-        loanApplicationPage.navigateToLoanApplicationPage();
-        modifyMonthlyPaymentAndCheckSavings("25000", "55", "25,000");
-    }
-
-    private void modifyMonthlyPaymentAndCheckSavings(String amount, String period, String amountConverted) throws Exception {
-        loanApplicationPage.modifyLoanCalcValues(amount, period);
+        loanApplicationPage.modifyMonthlyPayment(amount, period);
         loanApplicationPage.closeLoanCalcModal(true);
         loanApplicationPage.verifyLoanAmountInApplication(amount);
         loanApplicationPage.openLoanCalculator();
         loanApplicationPage.verifyLoanCalcValues(amountConverted, period);
         loanApplicationPage.verifyMonthlyPayment(Integer.parseInt(amount), Integer.parseInt(period));
+        //modifyMonthlyPaymentAndCheckSavings("3870", "60", "3,870");
+    }
+
+    @Story("Loan application – calculator")
+    @Severity(SeverityLevel.CRITICAL)
+    @DisplayName("Calculating monthly payment and APRC")
+    @Test
+    @Order(2)
+    void savingLoanCalcSelectedValues_testB() throws Exception {
+        // Calculating monthly payment and APRC for Loan amount change
+        loanApplicationPage.modifyMonthlyPayment("29000", null);
+        // Calculating monthly payment and APRC for Period change
+        loanApplicationPage.modifyMonthlyPayment(null, "100");
     }
 
     @Story("Loan application – calculator")
@@ -59,13 +64,12 @@ public class LoanCalculatorTest extends Base {
     void discardLoanCalcChanges() {
         loanApplicationPage.navigateToLoanApplicationPage();
         String amount = "3870";
-        String amountDefault = "5000";
         String period = "60";
         loanApplicationPage.modifyLoanCalcValues(amount, period);
         loanApplicationPage.closeLoanCalcModal(false);
-        loanApplicationPage.verifyLoanAmountInApplication(amountDefault);
+        loanApplicationPage.verifyLoanAmountInApplication(loanApplicationPage.amountDefault);
         loanApplicationPage.openLoanCalculator();
-        loanApplicationPage.verifyLoanCalcValues(loanApplicationPage.loanCalcModalAmountValue, loanApplicationPage.loanCalcModalPeriodValue);
+        loanApplicationPage.verifyLoanCalcValues(loanApplicationPage.loanCalcModalAmountValue, loanApplicationPage.periodDefault);
     }
 
 
