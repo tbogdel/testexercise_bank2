@@ -1,7 +1,6 @@
 package functional_tests;
 
 import ee.tbogdel.testexercise.utils.base.Base;
-import ee.tbogdel.testexercise.utils.utils.ParseJson;
 import io.qameta.allure.Feature;
 import io.qameta.allure.Severity;
 import io.qameta.allure.SeverityLevel;
@@ -30,15 +29,26 @@ public class LoanCalculatorTest extends Base {
     @Order(2)
     void savingLoanCalcSelectedValues() throws Exception {
         loanApplicationPage.navigateToLoanApplicationPage();
-        String amount = "3870";
-        String amountConverted = "3,870";
-        String period = "60";
+        modifyMonthlyPaymentAndCheckSavings("3870", "60", "3,870");
+    }
+
+    @Story("Loan application – calculator")
+    @Severity(SeverityLevel.CRITICAL)
+    @DisplayName("Saving selected values")
+    @Test
+    @Order(2)
+    void savingLoanCalcSelectedValues_testB() throws Exception {
+        loanApplicationPage.navigateToLoanApplicationPage();
+        modifyMonthlyPaymentAndCheckSavings("25000", "55", "25,000");
+    }
+
+    private void modifyMonthlyPaymentAndCheckSavings(String amount, String period, String amountConverted) throws Exception {
         loanApplicationPage.modifyLoanCalcValues(amount, period);
         loanApplicationPage.closeLoanCalcModal(true);
         loanApplicationPage.verifyLoanAmountInApplication(amount);
         loanApplicationPage.openLoanCalculator();
         loanApplicationPage.verifyLoanCalcValues(amountConverted, period);
-        loanApplicationPage.verifyMonthlyPayment();
+        loanApplicationPage.verifyMonthlyPayment(Integer.parseInt(amount), Integer.parseInt(period));
     }
 
     @Story("Loan application – calculator")

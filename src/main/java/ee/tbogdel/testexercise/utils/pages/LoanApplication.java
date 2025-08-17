@@ -150,8 +150,8 @@ public class LoanApplication {
     }
 
     @Step ("Verify loan calculator values")
-    public void verifyMonthlyPayment() throws Exception {
-        String monthlyPayment = ParseJson.getMonthlyPaymentCalculationFromServer();
+    public void verifyMonthlyPayment(int amount, int period) throws Exception {
+        String monthlyPayment = ParseJson.getMonthlyPaymentCalculationFromServer(amount, period);
         DecimalFormatSymbols symbols = new DecimalFormatSymbols(Locale.US);
         DecimalFormat df = new DecimalFormat("€#,##0.00", symbols);
         String formatted = df.format(Double.parseDouble(monthlyPayment));

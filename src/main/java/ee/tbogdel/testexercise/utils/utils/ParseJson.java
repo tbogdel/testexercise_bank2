@@ -46,13 +46,13 @@ public class ParseJson {
         return null;
     }
 
-    public static String getMonthlyPaymentCalculationFromServer() throws IOException, InterruptedException {
+    public static String getMonthlyPaymentCalculationFromServer(int amount, int period) throws IOException, InterruptedException {
         PricingParameters pricingParameters = getPricingConditions();
         assert pricingParameters != null;
         System.out.println("pricingParameters = " + pricingParameters);
 
         // Create JSON request body
-        String jsonRequest = createJsonRequest(pricingParameters);
+        String jsonRequest = createJsonRequest(pricingParameters, amount, period);
         System.out.println("Request JSON: " + jsonRequest);
 
         // Send POST request with JSON
@@ -79,14 +79,14 @@ public class ParseJson {
 
     }
 
-    private static String createJsonRequest(PricingParameters pricingParameters) {
+    private static String createJsonRequest(PricingParameters pricingParameters, int amount, int period) {
         JsonObject requestBody = new JsonObject();
         requestBody.addProperty("currency", "EUR"); // Constant value
         requestBody.addProperty("productType", "SMALL_LOAN_EE01"); // Constant value
-        requestBody.addProperty("maturity", 60); //From test data
+        requestBody.addProperty("maturity", period); //From test data
         requestBody.addProperty("administrationFee", Double.parseDouble(pricingParameters.maintenanceFee)); // From pricing conditions
         requestBody.addProperty("conclusionFee", 365); // Constant value
-        requestBody.addProperty("amount", 3870); // From test data
+        requestBody.addProperty("amount", amount); // From test data
         requestBody.addProperty("monthlyPaymentDay", 15); //Constant value
         requestBody.addProperty("interestRate", Double.parseDouble(pricingParameters.interestRate)); // From pricing conditions
 
