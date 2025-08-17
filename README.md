@@ -3,7 +3,7 @@
 
 # UI Automation Example Project
 > Example project developed to perform automated tests on the website [bigbank](https://taotlus.bigbank.ee/)
->> To collaborate with bigbank (TA): https://github.com/tbogdel
+>> To collaborate with bigbank (TA): https://github.com/tbogdel/testexercise_bank2.git
 
 
 ## How to use:
@@ -65,5 +65,5 @@ Note: if your browser can not open report then replace generated address by loca
 
 Report example:
 
-<img src="https://github.com/tbogdel/testexercise_bank2/blob/main/src/test/resources/Allure%20report.png"/>
+<img src="https://github.com/tbogdel/testexercise_bank2/blob/main/src/test/resources/allure_report_example.png"/>
 
