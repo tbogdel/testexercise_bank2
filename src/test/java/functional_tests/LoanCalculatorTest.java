@@ -28,7 +28,7 @@ public class LoanCalculatorTest extends Base {
     @Test
     @Order(2)
     void savingLoanCalcSelectedValues() throws Exception {
-        String amount = "30001";
+        String amount = "30000";
         String period = "6";
         String amountConverted = "30,000"; // Converted value for verification
         loanApplicationPage.navigateToLoanApplicationPage();
@@ -38,18 +38,17 @@ public class LoanCalculatorTest extends Base {
         loanApplicationPage.openLoanCalculator();
         loanApplicationPage.verifyLoanCalcValues(amountConverted, period);
         loanApplicationPage.verifyMonthlyPayment(Integer.parseInt(amount), Integer.parseInt(period));
-        //modifyMonthlyPaymentAndCheckSavings("3870", "60", "3,870");
     }
 
     @Story("Loan application – calculator")
     @Severity(SeverityLevel.CRITICAL)
-    @DisplayName("Calculating monthly payment and APRC")
+    @DisplayName("Calculating monthly payment")
     @Test
-    @Order(2)
-    void savingLoanCalcSelectedValues_testB() throws Exception {
-        // Calculating monthly payment and APRC for Loan amount change
+    @Order(3)
+    void calculatingMonthlyPayment() throws Exception {
+        // Calculating monthly payment for Loan amount change
         loanApplicationPage.modifyMonthlyPayment("29000", null);
-        // Calculating monthly payment and APRC for Period change
+        // Calculating monthly payment for Period change
         loanApplicationPage.modifyMonthlyPayment(null, "100");
     }
 
@@ -57,7 +56,7 @@ public class LoanCalculatorTest extends Base {
     @Severity(SeverityLevel.CRITICAL)
     @DisplayName("Closing the window discards loan calculator changes")
     @Test
-    @Order(3)
+    @Order(4)
     void discardLoanCalcChanges() {
         loanApplicationPage.navigateToLoanApplicationPage();
         String amount = "3870";
@@ -68,7 +67,4 @@ public class LoanCalculatorTest extends Base {
         loanApplicationPage.openLoanCalculator();
         loanApplicationPage.verifyLoanCalcValues(loanApplicationPage.loanCalcModalAmountValue, loanApplicationPage.periodDefault);
     }
-
-
-
 }

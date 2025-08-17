@@ -72,7 +72,6 @@ public class LoanApplication {
 
     @Step("Navigate to Loan Application Page")
     public void navigateToLoanApplicationPage() {
-        Allure.step("Navigate to Loan Application Page  allure.step");
         // Open loan application page
         driver.get(loanApplicationPageURL);
         base.labelVerification(loanCalcModalTitleLabel, loanCalcModalTitle);
