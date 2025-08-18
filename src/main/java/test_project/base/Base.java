@@ -29,7 +29,7 @@ public class Base {
 
     @BeforeEach
     public void setup(){
-        this.driver = WebDriverManager.initializeWebDriver();
+        this.driver = WebDriverSetup.initializeWebDriver();
         this.wait10Sec = new WebDriverWait(driver, Duration.ofSeconds(10));
         this.loanApplicationPage = new LoanApplication(driver, wait10Sec);
 

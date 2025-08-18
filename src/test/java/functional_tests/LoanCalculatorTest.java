@@ -17,7 +17,7 @@ public class LoanCalculatorTest extends Base {
     @DisplayName("Calculator modal view opening")
     @Test
     @Order(1)
-    void openLoanCalculator() {
+    void openLoanCalculator() throws Exception {
         loanApplicationPage.navigateToLoanApplicationPage();
         loanApplicationPage.verifyLoanCalcView();
     }
@@ -57,7 +57,7 @@ public class LoanCalculatorTest extends Base {
     @DisplayName("Closing the window discards loan calculator changes")
     @Test
     @Order(4)
-    void discardLoanCalcChanges() {
+    void discardLoanCalcChanges() throws Exception {
         loanApplicationPage.navigateToLoanApplicationPage();
         String amount = "3870";
         String period = "60";

@@ -1,14 +1,19 @@
 package test_project.base;
 
+import io.github.bonigarcia.wdm.WebDriverManager;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 
+
+import java.io.File;
 import java.time.Duration;
 
-public class WebDriverManager {
+public class WebDriverSetup {
     public static WebDriver initializeWebDriver() {
-        System.setProperty("webdriver.chrome.driver", "C:\\Program Files\\WebDriver\\chromedriver.exe");
+        File f = new File("target");
+        WebDriverManager.chromedriver().cachePath(f.getPath()).avoidOutputTree().setup();
+        //System.setProperty("webdriver.chrome.driver", "C:\\Program Files\\WebDriver\\chromedriver.exe");
         System.setProperty("allure.results.directory", "target\\allure-results");
         ChromeOptions options = new ChromeOptions();
         options.addArguments("--remote-allow-origins=*");
